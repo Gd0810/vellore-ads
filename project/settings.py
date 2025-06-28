@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-trbi7cshwt(8u(zhxlb_$gv^s-4pecfr*$=yqac^+^&yww070_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['clickforads.com']
 
 
 # Application definition
@@ -166,3 +166,6 @@ RAZORPAY_KEY_ID = 'rzp_test_lrSbqEXKLDzZCp'
 RAZORPAY_KEY_SECRET = 'osxl3AkRenY743r7pS9hqQm1'
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://clickforads.com',
+]
