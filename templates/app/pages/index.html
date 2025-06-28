@@ -1,0 +1,257 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block content %}
+  <style>
+    .news-bar {
+      background-color: whitesmoke;
+      color: white;
+      overflow: hidden;
+      position: relative;
+      height: 50px;
+      display: flex;
+      align-items: center;
+    }
+
+    .news-title {
+      padding: 0 15px;
+      font-weight: bold;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .news-scroll {
+      white-space: nowrap;
+      display: inline-block;
+      animation: scroll-left 20s linear infinite;
+      padding-left: 100%;
+      color: black !important;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+
+  <style>
+    .news-feed- {
+      max-height: 400px;
+      overflow-y: auto;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+    }
+  
+    .news-item {
+      padding: 10px 15px;
+      border-bottom: 1px solid #dee2e6;
+    }
+  
+    .news-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+
+    <!-- Page loading spinner-->
+    <div class="page-loading active">
+      <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+      </div>
+    </div>
+    <div class="-fluid" style="background-color: #f8f9fa;">
+
+      <main class="page-wrapper  bg-white" style="margin-top: 85px;">
+        {% include 'app/inc/navbar.html' %}
+  
+  
+  
+
+
+  
+
+  
+   
+        <!-- Page content-->
+        <!-- Categories-->
+        
+          <!-- Location dropdown -->
+          <select id="locationSelect" class="form-select mb-2 mt-5" style="width: auto;">
+            {% for item in location %}
+              <option value="{{ item.slug }}">{{ item.name }}</option>
+            {% endfor %}
+          </select>
+        
+          <!-- Categories grid -->
+          <div class="row row-cols-lg-6 g-3 g-xl-4">
+  
+            {% for category in categories %}
+            <div class="col">
+              <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+                 data-category-slug="{{ category.slug }}" href="#">
+                <div class="icon-box-media bg-faded-accent text-primary rounded-circle mb-3 mx-auto">
+                  <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                </div>
+                <p class="icon-box-title fs-base mb-0">{{ category.name }}</p>
+                <p></p>
+              </a>
+            </div>
+     
+            {% endfor %}
+        
+            <!-- "More" card -->
+            <div class="col">
+              <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center" href="{% url 'all_categories' %}">
+                <div class="icon-box-media bg-faded-accent text-primary rounded-circle mb-3 mx-auto">
+                  <img src="{% static 'images/more.png' %}" alt="More">
+                </div>
+                <h3 class="icon-box-title fs-base mb-0">More</h3>
+              </a>
+            </div>
+          </div>
+        </section>
+        
+        <!-- JavaScript to update links dynamically -->
+        <script>
+          const locationSelect = document.getElementById("locationSelect");
+        
+          function updateCategoryLinks() {
+            const selectedLocation = locationSelect.value;
+            const links = document.querySelectorAll("[data-category-slug]");
+            links.forEach(link => {
+              const categorySlug = link.getAttribute("data-category-slug");
+              link.setAttribute("href", `/${selectedLocation}/${categorySlug}`);
+            });
+          }
+        
+          // Run on load
+          updateCategoryLinks();
+        
+          // Run on change
+          locationSelect.addEventListener("change", updateCategoryLinks);
+        </script>
+
+
+<!-- where to stay -->
+
+      <section class=" mb-sm-5 mb-4 pb-lg-4 mt-5">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-2">
+          <h2 class="h3 mb-sm-0">Tourism in vellore</h2><a class="btn btn-link fw-normal ms-sm-3 p-0" href="#">View all<i class="fi-arrow-long-right ms-2"></i></a>
+        </div>
+        <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside">
+          <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 3, &quot;gutter&quot;: 24, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1,&quot;nav&quot;:true},&quot;500&quot;:{&quot;items&quot;:2},&quot;850&quot;:{&quot;items&quot;:3},&quot;1400&quot;:{&quot;items&quot;:3,&quot;nav&quot;:false}}}">
+            {% for item in tourism %}
+            <!-- Item-->
+            <div>
+              <div class="position-relative">
+                <div class="position-relative mb-3">
+                  <a href="{% url 'tourism' item.slug %}">
+                    <img class="rounded-3" src="{{item.banner_image.url}}" alt="Image">
+                  </a>
+                </div>
+                <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="{% url 'tourism' item.slug %}">{{item.name}}</a></h3>
+                <ul class="list-inline mb-0 fs-xs">
+                  <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.9</b><span class="text-muted">&nbsp;(43)</span></li>
+                  <li class="list-inline-item pe-1"><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>{{item.distance}}</li>
+                </ul>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+
+
+<!------------------------------------------------------- Banner + Where to eat ------------------------------------------------------->
+        <div class=" mb-5 pb-lg-4">
+          <div class="row">
+            <!-- Banner-->
+            <div class="col-lg-12 text-center text-lg-start mb-lg-0 mb-5 bg-faded-accent d-flex justify-content-between rounded align-items-center">
+                <div class="p-4">
+                  <h2 class="mb-0 p-2 text-primary text-nowrap">Trending<span class="text-dark">&nbsp;Places</span></h2>
+                  <p class="mb-0 p-2 fs-lg text-body">The best way to get wherever you’re going!</p>
+                </div>
+                <img src="{% static 'orgin/img/city-guide/illustrations/taxi.svg' %}" alt="Illustration">
+           
+            </div>
+            <!-- Where to eat-->
+            <div class="col-lg-12">
+              <div class="d-flex align-items-center justify-content-between mb-4 pb-2">
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="row">
+                    {% for item in trending %}
+                    <!-- Item-->
+                    <div class="col-sm-4">
+                      <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{{ item.business_image_1.url }}" alt="Brand logo" style="width: 80px;height: 80px;">
+                        <div>
+                          <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="{% url 'business_detail' item.slug %}">{{item.business_name}}</a></h3>
+                          <ul class="list-unstyled mb-0 fs-xs">
+                            <li><i class="fi-credit-card mt-n1 me-1 fs-base text-warning align-middle"></i>{{item.business_type}}</li>
+                            <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>{{item.business_district}}</li>
+                            <li><i class="fa-solid fa-eye mt-n1 me-1 fs-base  text-muted align-middle"></i><b>{{item.views_count}}</b> views</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      <!-- Blog: Latest posts-->
+      <section class=" my-5 py-lg-4">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-2">
+          <h2 class="h3 mb-sm-0">Vellore Guide</h2>
+        </div>
+        <!-- Carousel-->
+        <div class="tns-carousel-wrapper tns-nav-outside mb-md-2">
+          <div class="tns-carousel-inner d-block" data-carousel-options="{&quot;controls&quot;: false, &quot;gutter&quot;: 24, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1,&quot;nav&quot;:true},&quot;500&quot;:{&quot;items&quot;:2},&quot;850&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}}}">
+           {% for item in businessblog %}
+            <!-- Item-->
+            <article><a class="d-block mb-3" href="{% url 'business_blog' item.slug %}"><img class="rounded-3" src="{{item.banner_image.url}}" alt="Post image"></a><a class="fs-xs text-uppercase text-decoration-none" href="#">{{item.business_type.name}}</a>
+              <h3 class="fs-base pt-1"><a class="nav-link" href="{% url 'business_blog' item.slug %}">{{item.name}}</a></h3><a class="d-flex align-items-center text-decoration-none" href="#">
+                <div class="ps-2">
+                </div></a>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+        
+
+
+
+
+  
+
+  
+  
+        <!-- Blog: Latest posts-->
+  
+      </main>
+    </div>
+    <!-- Footer-->
+    {% include 'app/inc/footer.html' %}
+    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+
+
+    
+    {% endblock content %}

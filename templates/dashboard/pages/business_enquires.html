@@ -1,0 +1,85 @@
+{% extends 'dashboard/base/base.html' %}
+{% block title %} <title>Business Enquiries</title> {% endblock %}
+{% block content %}
+
+<div class="container mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Business Enquiries</h1>
+    </div>
+
+
+    {% if enquires %}
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th class="px-6 py-3">Enquired Person</th>
+                    <th class="px-6 py-3">Message</th>
+                    <th class="px-6 py-3">Mobile</th>
+                    <th class="px-6 py-3">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in enquires %}
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ item.enquired_person.first_name|default:item.enquired_person.username }}
+                    </td>
+                    <td class="px-6 py-4">{{ item.message }}</td>
+                    <td class="px-6 py-4">{{ item.enquired_person.mobile }}</td>
+                    <td class="px-6 py-4">
+                        <button onclick="openDeleteModal('{{ item.id }}')" class="px-3 py-1 text-red-700">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-center">
+        <nav class="flex space-x-2">
+            {% if enquires.has_previous %}
+                <a href="?page=1" class="px-3 py-1 border rounded">First</a>
+                <a href="?page={{ enquires.previous_page_number }}" class="px-3 py-1 border rounded">Previous</a>
+            {% endif %}
+            <span class="px-3 py-1 border bg-gray-300 rounded">{{ enquires.number }}</span>
+            {% if enquires.has_next %}
+                <a href="?page={{ enquires.next_page_number }}" class="px-3 py-1 border rounded">Next</a>
+                <a href="?page={{ enquires.paginator.num_pages }}" class="px-3 py-1 border rounded">Last</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% else %}
+    <p class="text-center text-gray-500">No enquiries available...</p>
+    {% endif %}
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <p class="text-lg font-semibold">Are you sure you want to delete this enquiry?</p>
+            <div class="mt-4 flex justify-end space-x-3">
+                <button onclick="closeModal('deleteModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <form id="deleteForm" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openDeleteModal(id) {
+        const urlTemplate = "{% url 'delete_enquiry' 0 %}";
+        const deleteUrl = urlTemplate.replace("0", id);
+        document.getElementById('deleteForm').action = deleteUrl;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+    }
+</script>
+
+{% endblock %}

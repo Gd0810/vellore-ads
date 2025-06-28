@@ -1,0 +1,98 @@
+{% load static %}
+
+
+<style>
+  #search-results {
+  position: absolute;
+  z-index: 1050;
+  width: 100%;
+  background-color:  white;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  overflow-y: auto;
+  transition: all 0.2s ease-in-out;
+  top: 55px;
+}
+
+#search-results .list-group-item {
+  transition: background-color 0.2s ease;
+}
+
+#search-results .list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+</style>
+
+<!-- Navbar-->
+<header class="navbar navbar-expand-lg  fixed-top" data-scroll-header style="background-color: white;">
+  <div class="container"><a class="navbar-brand me-3 me-xl-4" href="{% url 'index' %}">
+    <!-- <img class="d-block" src="{% static 'images/agarlogo.png' %}" width="116" alt="Finder"> -->
+     <span class="text-primary">my ads</span>
+  </a>
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if request.user.is_authenticated %}
+    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'dashboard_index' %}" ><i class="fi-user me-2"></i>Dashboard</a>
+    {% else %}
+    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'login' %}" ><i class="fi-user me-2"></i>Login</a>
+    <a class="btn btn-primary btn-sm rounded-pill ms-2 order-lg-3" href="{% url 'register' %}"><i class="fi-plus me-2"></i>Add<span class='d-none d-sm-inline'> business</span></a>
+    {% endif %}
+    <a class="btn  btn-sm rounded-pill ms-2 order-lg-3" href="#" style="background-color: green;color: white;"><i class="fab fa-whatsapp me-2"></i>Join<span class='d-none d-sm-inline'> whatsapp</span></a>
+    <a class="btn  btn-sm rounded-pill ms-2 order-lg-3" href="#" style="background-color: green;color: white;position: fixed;right: 30px;bottom: 30px;"><i class="fab fa-whatsapp" style="font-size: 30px;"></i></a>
+    <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+      <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
+           <a class="dropdown-item border-start" href="{% url 'about' %}">About Us</a>
+          <a class="dropdown-item" href="{% url 'contact' %}">Contact Us</a>
+      </ul>
+      
+      <form  class="form-group d-block d-md-flex position-relative rounded-md-pill mx-auto" style="width: 60%;height: 50px;" id="search-form">
+        <div class="input-group input-group-lg border-end-md">
+          <span class="input-group-text text-muted rounded-pill ps-3"><i class="fi-search"></i></span>
+          <input id="search-input" class="form-control" type="text" placeholder="What are you looking for?" autocomplete="off">
+        </div>
+        <div id="search-results" class="mt-2"></div>
+      </form>
+    </div>
+  </div>
+</header>
+
+<!-- 
+<form  class="form-group d-block d-md-flex position-relative rounded-md-pill mx-auto" style="width: 80%;height: 50px;margin-top: 80px;" id="search-form">
+  <div class="input-group input-group-lg border-end-md">
+    <span class="input-group-text text-muted rounded-pill ps-3"><i class="fi-search"></i></span>
+    <input id="search-input" class="form-control" type="text" placeholder="What are you looking for?" autocomplete="off">
+  </div>
+  <div id="search-results" class="mt-2"></div>
+</form> -->
+
+
+<!-- Page content-->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', function() {
+      const query = searchInput.value;
+      if (query) {
+        fetch(`/search/?q=${query}`)
+          .then(response => response.json())
+          .then(data => {
+            searchResults.innerHTML = data.html;
+          });
+      } else {
+        searchResults.innerHTML = '';
+      }
+    });
+  });
+</script>
+
+
+

@@ -1,0 +1,274 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!-- Page loading spinner-->
+    <div class="page-loading active">
+      <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+      </div>
+    </div>
+    <main class="page-wrapper ">
+      {% include 'app/inc/navbar.html' %}
+      <!-- Page container-->
+      <div class="container-fluid mt-1 pt-3 p-0">
+        <div class="row g-0 mt-n3">
+          <!-- Filters sidebar (Offcanvas on mobile)-->
+          <aside class="col-lg-4 col-xl-2 border-top-lg border-end-lg shadow-sm px-3 px-xl-4 px-xxl-5 pt-lg-2">
+            <div class="offcanvas offcanvas-start offcanvas-collapse" id="filters-sidebar">
+              <div class="offcanvas-header d-flex d-lg-none align-items-center">
+                <h2 class="h5 mb-0">Filters</h2>
+                <button class="btn-close" type="button" data-bs-dismiss="offcanvas"></button>
+              </div>
+              <!-- Nav tabs-->
+              <div class="offcanvas-body py-lg-4">
+                <!-- Tabs content-->
+                <div class="tab-content">
+                  <!-- Filters-->
+                  <form method="get" id="filterForm" class="tab-pane fade show active" id="filters" role="tabpanel">
+
+                    <!-- Average rating -->
+                    <div class="pb-4 mb-2">
+                      <h3 class="h6 mt-5">Average rating</h3>
+                      {% with request.GET.avgRating as avg_rating %}
+                        {% for i in "54321" %}
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="avgRating" id="{{ i }}-star" value="{{ i }}" onchange="document.getElementById('filterForm').submit();" {% if avg_rating == i %}checked{% endif %}>
+                            <label class="form-check-label fs-sm align-middle mt-n2" for="{{ i }}-star">
+                              <span class="star-rating">
+                                {% for j in "12345" %}
+                                  {% if j|add:'0' <= i|add:'0' %}
+                                    <i class="star-rating-icon fi-star-filled active"></i>
+                                  {% else %}
+                                    <i class="star-rating-icon fi-star"></i>
+                                  {% endif %}
+                                {% endfor %}
+                              </span>
+                            </label>
+                          </div>
+                        {% endfor %}
+                      {% endwith %}
+                    </div>
+                  
+                    <!-- Listing Filters -->
+                    <div class="pb-4 mb-2">
+                      <h3 class="h6">Filter by</h3>
+                      <div class="overflow-auto" data-simplebar data-simplebar-auto-hide="false" style="height: 11rem;">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="filter" id="filterTopRanked" value="top_ranked" onchange="document.getElementById('filterForm').submit();" {% if filter_type == 'top_ranked' %}checked{% endif %}>
+                          <label class="form-check-label fs-sm" for="filterTopRanked">Top rating</label>
+                        </div>
+                  
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="filter" id="filterMostViewed" value="most_viewed" onchange="document.getElementById('filterForm').submit();" {% if filter_type == 'most_viewed' %}checked{% endif %}>
+                          <label class="form-check-label fs-sm" for="filterMostViewed">Most views</label>
+                        </div>
+                  
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="filter" id="filterPremium" value="premium" onchange="document.getElementById('filterForm').submit();" {% if filter_type == 'premium' %}checked{% endif %}>
+                          <label class="form-check-label fs-sm" for="filterPremium">Premium Listings</label>
+                        </div>
+                  
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="filter" id="filterVerified" value="verified" onchange="document.getElementById('filterForm').submit();" {% if filter_type == 'verified' %}checked{% endif %}>
+                          <label class="form-check-label fs-sm" for="filterVerified">Verified Listings</label>
+                        </div>
+                  
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="filter" id="filterTrusted" value="trusted" onchange="document.getElementById('filterForm').submit();" {% if filter_type == 'trusted' %}checked{% endif %}>
+                          <label class="form-check-label fs-sm" for="filterTrusted">Trusted Listings</label>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <!-- Reset or manual filter (optional) -->
+                    <div class="border-top pb-4">
+                      <button class="btn btn-outline-primary rounded-pill" type="submit"><i class="fi-rotate-right me-2"></i>Filter now</button>
+                    </div>
+                  
+                  </form>
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </aside>
+          <!-- Page content-->
+          <div class="col-lg-8 col-xl-10 position-relative overflow-hidden pb-5 pt-4 px-3 px-xl-4 px-xxl-5">
+
+                        <!-- Breadcrumb-->
+            <nav class="mb-3 pt-md-2 mt-5" aria-label="Breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="real-estate-home-v1.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{catitle}}</li>
+              </ol>
+            </nav>
+
+                        <!-- Upcoming events-->
+        <section class="container mb-5 pb-lg-3 mt-2">
+          <div class="d-md-flex align-items-center justify-content-between mb-4 pb-md-2">
+            <h2 class="h3 w-100 mb-md-0">Promoted {{catitle}}</h2>
+          </div>
+          <!-- Carousel-->
+          <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside tns-center" style="height: 200px;">
+            <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 1, &quot;edgePadding&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;controls&quot;: false, &quot;gutter&quot;: 16},&quot;500&quot;:{&quot;controls&quot;: true, &quot;gutter&quot;: 16}, &quot;768&quot;: {&quot;gutter&quot;: 24}}}">
+              {% for item in ads %}
+              <!-- Item-->
+              <div>
+                <div class="card border-0 bg-size-cover pt-5" style="background-image: url({{item.banner_image.url}});height: 200px !important;background-position: center;background-repeat: no-repeat;background-size: cover;">
+                  <div class="d-none d-md-block" style="height: 13rem;"></div>
+                  <div class="card-body text-center text-md-start pt-4 pt-xl-0">
+                    <div class="d-md-flex justify-content-between align-items-end">
+                      <div class="me-2 mb-4 mb-md-0">
+                        <div class="d-flex justify-content-center justify-content-md-start text-light fs-sm mb-2">
+                        </div>
+                        <h3 class="h5 text-light mb-0">{{item.advertised_business.business_name}}</h3>
+                      </div>
+                      <div class="btn-group"><a class="btn btn-primary rounded-start-0  rounded-end-0 px-3" href="{% url 'business_detail' item.advertised_business.slug %}">View Business</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+            <!-- Title-->
+            <div class="d-sm-flex align-items-center justify-content-between pb-3 pb-sm-4">
+              <h1 class="h2 mb-sm-0">{{catitle}}'s List</h1>
+            </div>
+            <!-- Sorting-->
+            <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch my-2">
+              <div class="d-flex align-items-center flex-shrink-0">
+                <label class="fs-sm me-2 pe-1 text-nowrap" for="sortby"><i class="fi-arrows-sort text-muted mt-n1 me-2"></i></label>
+              </div>
+              <hr class="d-none d-sm-block w-100 mx-4">
+              <div class="d-none d-sm-flex align-items-center flex-shrink-0 text-muted"><i class="fi-check-circle me-2"></i><span class="fs-sm mt-n1">116 results</span></div>
+            </div>
+            <!-- Catalog grid-->
+            <div class="row g-4 py-4">
+              
+              {% for item in page_obj %}
+              <!-- Item-->
+              <div class="col-sm-6 col-xl-4">
+                <div class="card shadow-sm card-hover border-0 h-100">
+                  <div class="tns-carousel-wrapper card-img-top card-img-hover"><a class="img-overlay" href="{% url 'business_detail' item.slug %}"></a>
+                    <div class="position-absolute start-0 top-0 pt-3 ps-3">
+                      {% if item.premium %}
+                      <span class="d-table badge bg-primary mb-1">Premium</span>
+                      {% endif %}
+
+                      {% if item.verified %}
+                      <span class="d-table badge bg-success mb-1">Verified</span>
+                      {% endif %}
+                      
+                      {% if item.trusted %}
+                      <span class="d-table badge bg-info">trusted</span>
+                      {% endif %}
+                    </div>
+                    <div class="tns-carousel-inner" style="height: 150px;">
+                      {% if item.business_image_1 %}
+                      <img src="{{ item.business_image_1.url }}" alt="Image" style="height: 100%; object-fit: cover;">
+                      {% endif %}
+                      {% if item.business_image_2 %}
+                      <img src="{{ item.business_image_2.url }}" alt="Image" style="height: 100%; object-fit: cover;">
+                      {% endif %}
+                      {% if item.business_image_3 %}
+                      <img src="{{ item.business_image_3.url }}" alt="Image" style="height: 100%; object-fit: cover;">
+                      {% endif %}
+                      {% if item.business_image_4 %}
+                      <img src="{{ item.business_image_4.url }}" alt="Image" style="height: 100%; object-fit: cover;">
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="card-body position-relative pb-3">
+                    <h4 class="mb-1 fs-xs fw-normal text-uppercase text-primary">{{item.business_type}}</h4>
+                    <h3 class="h6 mb-2 fs-base"><a class="nav-link stretched-link" href="{% url 'business_detail' item.slug %}">{{item.business_name}}</a></h3>
+                    <div class="d-flex">
+                      <p class="mb-2 fs-sm text-muted"><i class="fa-solid fa-eye"></i>  {{item.views_count}} </p>
+                      <p class="mb-2 fs-sm text-muted ms-2"><i class="fa-solid fa-star"></i> {{item.rating}}</p>
+                      <p class="mb-2 fs-sm text-muted ms-2">Myads ID : {{item.id}}</p>
+                      <span class="d-table badge bg-primary mb-1 ms-2">Get contact details</span>
+                    </div>
+                    <!-- <div class="fw-bold"><i class="fi-cash mt-n1 me-2 lead align-middle opacity-70"></i>$50,000</div> -->
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+
+            </div>
+            <!-- Pagination-->
+            <nav class="border-top pb-md-4 pt-4 mt-2" aria-label="Pagination">
+              <ul class="pagination mb-1">
+          
+                  {# Small screen static page count (optional) #}
+                  <li class="page-item d-sm-none">
+                      <span class="page-link page-link-static">
+                          {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                      </span>
+                  </li>
+          
+                  {# Previous page link #}
+                  {% if page_obj.has_previous %}
+                      <li class="page-item">
+                          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                              <i class="fi-chevron-left"></i>
+                          </a>
+                      </li>
+                  {% else %}
+                      <li class="page-item disabled">
+                          <span class="page-link"><i class="fi-chevron-left"></i></span>
+                      </li>
+                  {% endif %}
+          
+                  {# Page numbers #}
+                  {% for page_num in page_obj.paginator.page_range %}
+                      {% if page_num == page_obj.number %}
+                          <li class="page-item active" aria-current="page">
+                              <span class="page-link">
+                                  {{ page_num }}
+                                  <span class="visually-hidden">(current)</span>
+                              </span>
+                          </li>
+                      {% elif page_num >= page_obj.number|add:'-2' and page_num <= page_obj.number|add:'2' %}
+                          <li class="page-item d-none d-sm-block">
+                              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                          </li>
+                      {% elif page_num == 1 or page_num == page_obj.paginator.num_pages %}
+                          <li class="page-item d-none d-sm-block">
+                              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                          </li>
+                      {% elif page_num == page_obj.number|add:'-3' or page_num == page_obj.number|add:'3' %}
+                          <li class="page-item d-none d-sm-block">
+                              <span class="page-link">...</span>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+          
+                  {# Next page link #}
+                  {% if page_obj.has_next %}
+                      <li class="page-item">
+                          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                              <i class="fi-chevron-right"></i>
+                          </a>
+                      </li>
+                  {% else %}
+                      <li class="page-item disabled">
+                          <span class="page-link"><i class="fi-chevron-right"></i></span>
+                      </li>
+                  {% endif %}
+              </ul>
+          </nav>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer-->
+    {% include 'app/inc/footer.html' %}
+    <!-- Filters sidebar toggle button (mobile)-->
+    <button class="btn btn-primary btn-sm w-100 rounded-0 fixed-bottom d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters-sidebar"><i class="fi-filter me-2"></i>Filters</button>
+    {% endblock content %}

@@ -1,0 +1,439 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!-- Page loading spinner-->
+    <div class="page-loading active">
+      <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+      </div>
+    </div>
+    <main class="page-wrapper">
+      {% include 'app/inc/navbar.html' %}
+     <!-- Page content-->
+     <!-- Page header-->
+     <section class="container pt-3 mt-0">
+       <!-- Breadcrumb-->
+       <nav class="mb-3 pt-md-3" aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+           <li class="breadcrumb-item"><a href="">{{business.business_type.slug}}</a></li>
+           <li class="breadcrumb-item active" aria-current="page">{{business.business_name}}</li>
+         </ol>
+       </nav>
+       <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-sm-2">
+         <h1 class="h2 me-3 mb-sm-0">{{business.business_name}}</h1>
+         <div class="text-nowrap">
+           <button class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle" type="button" data-bs-toggle="tooltip" title="Add to Wishlist"><i class="fi-heart"></i></button>
+           <div class="dropdown d-inline-block" data-bs-toggle="tooltip" title="Share">
+             <button class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle ms-2" type="button" data-bs-toggle="dropdown"><i class="fi-share"></i></button>
+             <div class="dropdown-menu dropdown-menu-end my-1">
+               <button class="dropdown-item" type="button"><i class="fi-facebook fs-base opacity-75 me-2"></i>Facebook</button>
+               <button class="dropdown-item" type="button"><i class="fi-twitter fs-base opacity-75 me-2"></i>Twitter</button>
+               <button class="dropdown-item" type="button"><i class="fi-instagram fs-base opacity-75 me-2"></i>Instagram</button>
+             </div>
+           </div>
+         </div>
+       </div>
+     <!-- Gallery-->
+     <section class="container my-5">
+      <div id="lightgallery" class="row g-2">
+        <!-- Big Image -->
+        <div class="col-12 col-md-12" style="height: 400px;">
+          {% if business.business_image_1 %}
+          <a href="{{business.business_image_1.url}}">
+            <img class="img-fluid w-100 h-100 rounded" style="object-fit: cover;" src="{{business.business_image_1.url}}" alt="Image 1">
+            {% else %}
+          </a>
+            <img class="img-fluid w-100 h-100 rounded" style="object-fit: cover;" src="{% static 'images/noimage.jpg' %}" alt="Image 1">
+          </a>
+          {% endif %}
+        </div>
+    
+    
+        <!-- Small horizontal row -->
+        <div class="col-3 col-md-3">
+          {% if business.business_image_2 %}
+          <a href="{{business.business_image_2.url}}">
+            <img class="img-fluid w-100 rounded" style="height: 180px; object-fit: cover;" src="{{business.business_image_2.url}}" alt="Image 4">
+          </a>
+            {% else %}
+          <a href="{% static 'images/noimage.jpg' %} ">
+            <img class="img-fluid w-100 h-100 rounded" style="height: 180px;object-fit: fill;" src="{% static 'images/noimage.jpg' %}" alt="Image 1">
+          </a>
+            {% endif %}
+        </div>
+        <div class="col-3 col-md-3">
+          {% if business.business_image_3 %}
+          <a href="{{business.business_image_3.url}}">
+            <img class="img-fluid w-100 rounded" style="height: 180px; object-fit: cover;" src="{{business.business_image_3.url}}" alt="Image 4">
+          </a>
+            {% else %}
+            <a href="{% static 'images/noimage.jpg' %}">
+            <img class="img-fluid w-100 h-100 rounded" style="height: 180px;object-fit: cover;" src="{% static 'images/noimage.jpg' %}" alt="Image 1">
+          </a>
+            {% endif %}
+        </div>
+        <div class="col-3 col-md-3">
+          {% if business.business_image_4 %}
+          <a href="{{business.business_image_4.url}}">
+            <img class="img-fluid w-100 rounded" style="height: 180px; object-fit: cover;" src="{{business.business_image_4.url}}" alt="Image 4">
+          </a>
+            {% else %}
+            <a href="{% static 'images/noimage.jpg' %}">
+            <img class="img-fluid w-100 h-100 rounded" style="height: 180px;object-fit: cover;" src="{% static 'images/noimage.jpg' %}" alt="Image 1">
+          </a>
+            {% endif %}
+        </div>
+        <div class="col-3 col-md-3">
+          {% if business.business_image_5 %}
+          <a href="{{business.business_image_3.url}}">
+            <img class="img-fluid w-100 rounded" style="height: 180px; object-fit: fill;" src="{{business.business_image_5.url}}" alt="Image 4">
+          </a>
+            {% else %}
+            <a href="{% static 'images/noimage.jpg' %}">
+            <img class="img-fluid w-100 h-100 rounded" style="height: 180px;object-fit: cover;" src="{% static 'images/noimage.jpg' %}" alt="Image 1">
+          </a>
+            {% endif %}
+        </div>
+      </div>
+    </section>
+     <!-- Page content-->
+     <section class="container pb-5 mb-md-4">
+       <div class="row">
+
+         <div class="col-md-8 mb-md-0 mb-3">
+           <div class="card py-2 px-sm-4 px-3 shadow-sm">
+             <div class="card-body mx-n2">
+               <!-- Place info-->
+               <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                 {% if business.business_logo %}
+                <img src="{{business.business_logo.url}}" width="60" alt="Thumbnail">
+                {% else %}
+                <img src="#" width="60" alt="Thumbnail">
+                {% endif %}
+                 <div class="ps-2 ms-1">
+                   <h3 class="h5 mb-2"> {{business.business_name}}</h3>
+                   <ul class="list-unstyled d-flex flex-wrap fs-sm">
+                     <li class="me-2 mb-1 pe-1"><i class="fi-star-filled mt-n1 me-1 text-warning align-middle opacity-70"></i><b>{{ average_rating }} </b>({{ total_reviews }} reviews)</li>
+                   </ul>
+                 </div>
+               </div>
+               <!-- Place contacts-->
+               <div class="mb-3 pb-3 border-bottom">
+                 <h4 class="h5 mb-2">Contacts:</h4>
+                 <ul class="nav row row-cols-sm-2 row-cols-1 gy-1">
+                  {% if request.user.is_authenticated %}
+                   <li class="col"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="#"><i class="fi-map-pin mt-1 me-2 align-middle opacity-70"></i>{{business.business_address}}</a></li>
+                   <li class="col"><a class="nav-link d-inline-block p-0 fw-normal d-inline-flex align-items-start" href="tel:{{business.business_contact}}"><i class="fi-phone mt-1 me-2 align-middle opacity-70"></i>{{business.business_contact}}</a>, <a class="nav-link d-inline-block p-0 fw-normal" href="tel:3025550208">(302) 555-0208</a></li>
+                   <li class="col"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="{{business.business_website}}"><i class="fi-globe mt-1 me-2 align-middle opacity-60"></i>{{business.business_website}}</a></li>
+                   <li class="col"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="mailto:{{business.business_mail}}"><i class="fi-mail mt-1 me-2 align-middle opacity-70"></i>{{business.business_mail}}</a></li>
+                 {% else %}
+                   <li class="col"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="{% url 'login' %}"><i class="fi-map-pin mt-1 me-2 align-middle opacity-70"></i>Login to view</a></li>
+                   <li class="col"><a class="nav-link d-inline-block p-0 fw-normal d-inline-flex align-items-start" href="{% url 'login' %}"><i class="fi-phone mt-1 me-2 align-middle opacity-70"></i>Login to view</a>, <a class="nav-link d-inline-block p-0 fw-normal" href="tel:3025550208">(302) 555-0208</a></li>
+                   <li class="col"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="{% url 'login' %}"><i class="fi-globe mt-1 me-2 align-middle opacity-60"></i>Login to view</a></li>
+                   <li class="col"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="{% url 'login' %}"><i class="fi-mail mt-1 me-2 align-middle opacity-70"></i>Login to view</a></li>
+                 {% endif %}
+                  </ul>
+               </div>
+               <!-- Place pricing-->
+               <div class="mb-3 pb-3 border-bottom">
+                <!-- Follow-->
+                <div class="d-flex align-items-center">
+                  <h4 class="h5 mb-0 me-3">Follow:</h4>
+                  <div class="text-nowrap"><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-facebook"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-instagram"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle" href="#"><i class="fi-twitter"></i></a></div>
+                </div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         <div class="col-md-4 mb-md-0 mb-3">
+           <div class="card py-2 px-sm-4 px-3 shadow-sm">
+               <!-- Place contacts-->
+               <div class="mb-3 pb-3 border-bottom">
+                 <h4 class="h5 mb-2">Badges from ads</h4>
+                 <ul class="nav row row-cols-sm-2 row-cols-1 gy-1">
+                  <li class="me-2 mb-1 pe-1"><span class="badge bg-success me-2 mb-3">Verified</span><span class="badge bg-info me-2 mb-3">New</span></li>
+                 </ul>
+               </div>
+               <!-- Place contacts-->
+               <div class="mb-3 pb-3 border-bottom">
+                 <h4 class="h5 mb-2">Ad Number : <span class="text-primary">{{business.id}}</span></h4>
+               </div>
+               <!-- Place contacts-->
+               <div class="mb-3 pb-3 border-bottom">
+                 <h4 class="h5 mb-2">Total Views : <span class="text-primary">{{business.views_count}}</span></h4>
+               </div>
+               <!-- Place pricing-->
+               <div class="mb-3 pb-3 border-bottom">
+                 <div class="row row-cols-sm-2 row-cols-1">
+                   <div class="col"><a class="btn btn-danger btn-lg rounded-pill w-sm-auto w-100" href="#">Report this ad !</a></div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         
+
+       </div>
+     </section>
+     <!-- page content -2  -->
+     <section class="container mb-5 pb-1">
+      <div class="row">
+        <div class="col-md-7 mb-md-0 mb-4">
+       
+          <!-- Overview-->
+          <div class="mb-4 pb-md-3">
+            <h3 class="h4">About {{business.business_name}}</h3>
+            <p class="mb-1">{{business.business_description}}</p>
+            <div class="collapse" id="seeMoreOverview">
+              <p class="mb-1">Asperiores eos molestias, aspernatur assumenda vel corporis ex, magni excepturi totam exercitationem quia inventore quod amet labore impedit quae distinctio? Officiis blanditiis consequatur alias, atque, sed est incidunt accusamus repudiandae tempora repellendus obcaecati delectus ducimus inventore tempore harum numquam autem eligendi culpa.</p>
+            </div><a class="collapse-label collapsed" href="#seeMoreOverview" data-bs-toggle="collapse" data-bs-label-collapsed="Show more" data-bs-label-expanded="Show less" role="button" aria-expanded="false" aria-controls="seeMoreOverview"></a>
+          </div>
+
+
+          <!-- Post meta-->
+          <div class="mb-lg-5 mb-md-4 pb-lg-2 py-4 border-top">
+            <ul class="d-flex mb-4 list-unstyled fs-sm">
+              <li class="me-3 pe-3 border-end">Published: <b>{{business.created_at}}</b></li>
+              <li class="me-3 pe-3 border-end">Ad number: <b>{{business.id}}</b></li>
+              <li class="me-3 pe-3">Views: <b>{{business.views_count}}</b></li>
+            </ul>
+          </div>
+          <div class="container mt-5">
+            <div>
+              
+            <!-- Reviews Header -->
+            <div class="mb-4 pb-4 border-bottom">
+              <h3 class="h4 pb-3">
+                  <i class="fi-star-filled mt-n1 me-2 lead align-middle text-warning"></i>
+                  {{ average_rating }} ({{ total_reviews }} reviews)
+              </h3>
+              <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between">
+                {% if request.user.is_authenticated %}
+                  <a class="btn btn-outline-primary mb-sm-0 mb-3" href="#" data-bs-toggle="modal" data-bs-target="#modal-review">
+                      <i class="fi-edit me-1"></i>Add review
+                  </a>
+                {% else %}
+                <a class="btn btn-outline-primary mb-sm-0 mb-3"  aria-disabled="true" data-bs-target="#modal-review">
+                      <i class="fi-edit me-1"></i>login to Add review
+                  </a>
+                {% endif %}
+              </div>
+          </div>
+      
+          <!-- Review List -->
+          <div id="review-list">
+              {% for review in reviews %}
+                  <div class="mb-4 pb-4 border-bottom">
+                      <div class="d-flex justify-content-between mb-3">
+                          <div class="d-flex align-items-center pe-2">
+                              <img class="rounded-circle me-1" src="{% static 'orgin/img/avatars/03.jpg' %}" width="48" alt="Avatar">
+                              <div class="ps-2">
+                                  <h6 class="fs-base mb-0">{{ review.reviewer.username }}</h6>
+                                  <span class="star-rating">
+                                      {% for i in "12345" %}
+                                          {% if forloop.counter <= review.rating %}
+                                              <i class="star-rating-icon fi-star-filled active"></i>
+                                          {% else %}
+                                              <i class="star-rating-icon fi-star"></i>
+                                          {% endif %}
+                                      {% endfor %}
+                                  </span>
+                              </div>
+                          </div>
+                          <span class="text-muted fs-sm">{{ review.created_at|date:"M d, Y" }}</span>
+                      </div>
+                      <p>{{ review.comment }}</p>
+                  </div>
+              {% endfor %}
+          </div>
+      
+          <!-- Load More Button -->
+          {% if total_reviews > 5 %}
+              <div class="text-center">
+                  <button id="load-more" class="btn btn-primary">Load More</button>
+              </div>
+          {% endif %}
+      
+      </div>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="modal-review" tabindex="-1" aria-labelledby="modal-reviewLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <form id="add-review-form" method="post" action="{% url 'add_review' business.id %}">
+            {% csrf_token %}
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {{ form.as_p }}
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <script>
+        // ————— CSRF SETUP —————
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+              cookie = cookie.trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $.ajaxSetup({
+          headers: { 'X-CSRFToken': csrftoken }
+        });
+      
+        // ————— LOAD MORE REVIEWS —————
+        let offset = 5;
+        $('#load-more').on('click', function() {
+          $.ajax({
+            url: "{% url 'load_more_reviews' business.id %}",
+            type: 'GET',
+            data: { offset: offset },
+            success: function(data) {
+              if (data.reviews.length === 0) {
+                $('#load-more').prop('disabled', true).text('No more reviews');
+                return;
+              }
+              data.reviews.forEach(function(review) {
+                $('#review-list').append(`
+                  <div class="mb-4 pb-4 border-bottom">
+                    <div class="d-flex justify-content-between mb-3">
+                      <div class="d-flex align-items-center pe-2">
+                        <img class="rounded-circle me-1" src="{% static 'orgin/img/avatars/03.jpg' %}" width="48" alt="Avatar">
+                        <div class="ps-2">
+                          <h6 class="fs-base mb-0">${review.reviewer}</h6>
+                          <span class="star-rating">
+                            ${'<i class="star-rating-icon fi-star-filled active"></i>'.repeat(review.rating)}
+                            ${'<i class="star-rating-icon fi-star"></i>'.repeat(5 - review.rating)}
+                          </span>
+                        </div>
+                      </div>
+                      <span class="text-muted fs-sm">${review.created_at}</span>
+                    </div>
+                    <p>${review.comment}</p>
+                  </div>
+                `);
+              });
+              offset += data.reviews.length;
+            },
+            error: function() {
+              alert('Error loading more reviews.');
+            }
+          });
+        });
+      
+        // ————— ADD REVIEW VIA AJAX —————
+        $('#add-review-form').on('submit', function(e) {
+          e.preventDefault();
+          const $form = $(this);
+          $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(data) {
+              if (data.success) {
+                // reload to show the new review (or you could prepend it dynamically)
+                location.reload();
+              } else {
+                console.error(data.errors);
+                alert('Failed to submit review.');
+              }
+            },
+            error: function(xhr) {
+              alert('Error submitting review: ' + xhr.statusText);
+            }
+          });
+        });
+      </script>
+      
+            </div>
+        
+        </div>
+        <!-- Sidebar-->
+        <aside class="col-lg-4 col-md-5 ms-lg-auto pb-1">
+          <!-- Location (Map)-->
+          <div class="pt-2">
+            <div class="position-relative mb-2"><img class="rounded-3" src="{% static 'orgin/img/real-estate/single/map.jpg' %}" alt="Map">
+              <div class="d-flex w-100 h-100 align-items-center justify-content-center position-absolute top-0 start-0"><a class="btn btn-primary stretched-link" href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6145424811048!2d-73.93999278406218!3d40.74850644331743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2592979d4827f%3A0x3a5d8b3cf779f3b6!2s28%20Jackson%20Ave%2C%20Long%20Island%20City%2C%20NY%2011101%2C%20USA!5e0!3m2!1sen!2sua!4v1618074552281!5m2!1sen!2sua" data-iframe="true" data-bs-toggle="lightbox"><i class="fi-route me-2"></i>Get directions</a></div>
+            </div>
+            <p class="mb-0 fs-sm text-center">{{business.address}}</p>
+          </div>
+          <!-- Contact card-->
+          <div class="card shadow-sm mb-4 mt-4">
+            <div class="card-body">
+              <!-- Contact form-->
+              <form id="enquiry-form" class="needs-validation" method="post" novalidate>
+                {% csrf_token %}
+                <h4>Enquire now</h4>
+                <input type="hidden" name="business_id" id="business_id" value="{{ business.id }}">
+                <textarea id="message" name="message" class="form-control mb-3" rows="3" placeholder="Message" style="resize: none;" required></textarea>
+                {% if request.user.is_authenticated %}
+                <button class="btn btn-lg btn-primary d-block w-100" type="submit">Send Enquiry</button>
+                {% else %}
+                <button class="btn btn-lg btn-primary d-block w-100" disabled type="submit">Login to send message</button>
+                {% endif %}
+              </form>
+              
+              <div id="form-response" class="mt-2 text-success" style="display:none;">Your enquiry has been sent!</div>
+              
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <script>
+      document.getElementById('enquiry-form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const businessId = document.getElementById('business_id').value;
+          const message = document.getElementById('message').value;
+          const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      
+          fetch("{% url 'submit_enquiry' %}", {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': csrfToken
+              },
+              body: JSON.stringify({ message: message, business_id: businessId })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.status === 'success') {
+                  document.getElementById('form-response').style.display = 'block';
+                  document.getElementById('enquiry-form').reset();
+              } else {
+                  alert(data.error || 'An error occurred.');
+              }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+      </script>
+      
+
+   </main>
+
+    <!-- Footer-->
+    {% include 'app/inc/footer.html' %}
+    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+    {% endblock content %}

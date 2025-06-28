@@ -1,0 +1,18 @@
+<!-- extending base -->
+{% extends 'base/app_base.html' %}
+<!-- title block for html page -->
+{% block title %}
+{% endblock title %}
+<!-- metatags block for html page -->
+{% block metatags %}
+{% endblock metatags %}
+<!-- content block for html page -->
+{% block content %}
+{% endblock content %}
+
+
+
+
+[2025-03-05 05:56:14 +0000] [834997] [INFO] Worker exiting (pid: 834997)
+[2025-03-05 05:56:14 +0000] [834998] [INFO] Worker exiting (pid: 834998)
+[2025-03-05 05:56:14 +0000] [834996] [INFO] Shutting down: Master

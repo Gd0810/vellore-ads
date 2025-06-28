@@ -1,0 +1,15 @@
+{% if businesses %}
+  <div class="list-group shadow-sm rounded">
+    {% for business in businesses %}
+      <a href="{% url 'business_detail' business.slug %}" class="list-group-item list-group-item-action d-flex align-items-center">
+        <img src="{{ business.business_image_1.url }}" alt="{{ business.business_name }}" class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+        <div>
+          <strong>{{ business.business_name }}</strong><br>
+          <small class="text-muted">{{ business.business_type.name }} in {{ business.business_district.name }}</small>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="text-muted small p-2">No results found.</div>
+{% endif %}

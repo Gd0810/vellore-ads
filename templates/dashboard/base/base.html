@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}{% endblock title %}
+    {% block metatags %}{% endblock metatags %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="bg-gray-100">
+
+<!-- Wrapper for Sidebar and Main Content -->
+<div class="flex h-screen">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 {% if request.user.is_superuser %} bg-[#fe610c] {% else %} bg-[#3a4d8a] {% endif %} text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+        <div class="px-6 py-5 text-center text-xl font-bold border-b border-orange-400">myads</div>
+        <nav class="mt-4 space-y-1">
+    
+            <a href="{% url 'dashboard_index' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">🏠 Dashboard</a>
+   
+            <a href="{% url 'user_business_list' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 All Business Profiles</a>
+            <a href="{% url 'user_business_enquires' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Enquires</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 md:ml-64">
+        
+        <!-- Navbar -->
+        <header class="flex items-center justify-between p-4 bg-white shadow-md">
+            <!-- Mobile Menu Button -->
+            <button id="menuBtn" class="md:hidden text-gray-600 text-2xl focus:outline-none">☰</button>
+            
+            <h1 class="text-xl font-semibold">Dashboard</h1>
+
+            <!-- User Info & Logout -->
+            <div class="flex items-center gap-4">
+                <span class="text-gray-700 font-medium">👋 Hi, {{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">Logout</a>
+                <a href="{% url 'index' %}" class="px-4 py-2 bg-gray-900 text-white rounded-lg shadow-md hover:bg-gray-700 transition">Back to Site</a>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content -->
+        <main class="p-6">
+            {% block content %}{% endblock content %}
+        </main>
+
+    </div>
+
+</div>
+
+
+    <script src="{% static 'js/dashboard_custom.js' %}" ></script>
+
+</body>
+</html>

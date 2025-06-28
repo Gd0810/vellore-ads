@@ -1,0 +1,50 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block content %}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+
+    <!-- Page loading spinner-->
+    <div class="page-loading active">
+      <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+      </div>
+    </div>
+    <div class="container-fluid" style="background-color: #f8f9fa;">
+
+      <main class="page-wrapper container bg-white  py-5" style="margin-top: 8px;">
+        {% include 'app/inc/navbar.html' %}
+
+        <!-- Page content-->
+        <!-- Categories-->
+        
+          <!-- Location dropdown -->
+          <select id="locationSelect" class="form-select mb-2 mt-5" style="width: auto;">
+            {% for item in location %}
+              <option value="{{ item.slug }}">{{ item.name }}</option>
+            {% endfor %}
+          </select>
+        
+          <!-- Categories grid -->
+          <div class="row row-cols-lg-6 row-cols-sm-3 row-cols-2 g-3 g-xl-4">
+  
+            {% for category in categories %}
+            <div class="col">
+              <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+                 data-category-slug="{{ category.slug }}" href="#">
+                <div class="icon-box-media bg-faded-accent text-primary rounded-circle mb-3 mx-auto">
+                  <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                </div>
+                <p class="icon-box-title fs-base mb-0">{{ category.name }}</p>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </section>  
+      </main>
+    </div>
+    <!-- Footer-->
+    {% include 'app/inc/footer.html' %}
+
+    
+    {% endblock content %}

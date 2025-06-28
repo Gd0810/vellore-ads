@@ -1,0 +1,181 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Pay ₹1 with Razorpay</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <h2>Pay ₹1</h2>
+  <button id="pay-btn">Pay Now</button>
+
+  <script>
+    document.getElementById('pay-btn').onclick = function () {
+      var options = {
+        key: "rzp_test_lrSbqEXKLDzZCp", // Your Razorpay Key ID (public)
+        amount: 100, // Amount is in paise = 1 INR
+        currency: "INR",
+        name: "Test Store",
+        description: "Test Transaction of ₹1",
+        image: "https://your-logo-url.com/logo.png", // Optional
+        handler: function (response) {
+          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+        },
+        prefill: {
+          name: "John Doe",
+          email: "john@example.com",
+          contact: "9999999999"
+        },
+        notes: {
+          address: "Test address"
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
+
+      var rzp = new Razorpay(options);
+      rzp.open();
+    };
+  </script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vellore Weather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .weather-card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      max-width: 350px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .weather-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .weather-icon {
+      font-size: 3rem;
+      margin: 10px 0;
+    }
+
+    .temperature {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #0077b6;
+    }
+
+    .wind {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      font-weight: 500;
+    }
+
+    .time {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="weather-card">
+    <h2>Vellore</h2>
+    <div class="weather-icon">🌤️</div>
+    <div class="temperature" id="temperature">--°C</div>
+    <div class="wind" id="wind">-- km/h</div>
+    <div class="description" id="description">Loading...</div>
+    <div class="time" id="updated-time">Updated: --</div>
+  </div>
+
+  <script>
+    const latitude = 12.9165;
+    const longitude = 79.1325;
+    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+
+    const weatherDescriptions = {
+      0: 'Clear sky',
+      1: 'Mainly clear',
+      2: 'Partly cloudy',
+      3: 'Overcast',
+      45: 'Fog',
+      48: 'Depositing rime fog',
+      51: 'Light drizzle',
+      53: 'Moderate drizzle',
+      55: 'Dense drizzle',
+      61: 'Slight rain',
+      63: 'Moderate rain',
+      65: 'Heavy rain',
+      71: 'Slight snow',
+      73: 'Moderate snow',
+      75: 'Heavy snow',
+      95: 'Thunderstorm',
+      96: 'Thunderstorm with slight hail',
+      99: 'Thunderstorm with heavy hail'
+    };
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const weather = data.current_weather;
+        const temp = weather.temperature;
+        const windSpeed = weather.windspeed;
+        const windDir = weather.winddirection;
+        const code = weather.weathercode;
+        const time = new Date(weather.time);
+
+        document.getElementById('temperature').textContent = `${temp}°C`;
+        document.getElementById('wind').textContent = `Wind: ${windSpeed} km/h ${degToCompass(windDir)}`;
+        document.getElementById('description').textContent = weatherDescriptions[code] || 'Weather info';
+        document.getElementById('updated-time').textContent = `Updated: ${time.toLocaleString('en-IN', {
+          dateStyle: 'medium',
+          timeStyle: 'short'
+        })}`;
+      })
+      .catch(error => {
+        console.error('Error fetching weather data:', error);
+        document.getElementById('description').textContent = 'Could not load weather.';
+      });
+
+    function degToCompass(num) {
+      const val = Math.floor((num / 22.5) + 0.5);
+      const arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+                   "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+      return arr[(val % 16)];
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends 'dashboard/base/base.html' %}
+{% block title %} <title>Add Business</title> {% endblock %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Add Business</h1>
+
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for field in form %}
+                <div class="{% if field.name == 'business_description' %} md:col-span-full {% endif %}">
+                    <label class="block text-gray-700 font-medium">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <p class="text-sm text-gray-500">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <p class="text-red-500 text-sm">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-6 flex justify-between">
+                <a href="#" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

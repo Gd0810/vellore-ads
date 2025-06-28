@@ -1,0 +1,89 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Page loading spinner-->
+    <div class="page-loading active">
+        <div class="page-loading-inner">
+          <div class="page-spinner"></div><span>Loading...</span>
+        </div>
+      </div>
+      <main class="page-wrapper">
+        {% include 'app/inc/navbar.html' %}
+                  <!-- Page content-->
+      <section class="container my-5 pt-lg-5 pt-4 pb-lg-5">
+        <!-- Breadcrumbs-->
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb pt-3 mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact us</li>
+          </ol>
+        </nav>
+        <div class="row gy-4">
+          <div class="col-md-6"><img class="rounded-3" src="{% static 'orgin/img/city-guide/contacts/01.jpg' %}" alt="Cover"></div>
+          <div class="col-xl-5 offset-xl-1 col-md-6">
+            <h1 class="mb-md-4 mb-3">Contact us</h1>
+            <p class="mb-4 pb-md-2 fs-lg">Fill out the form and out team will try to get back to you within 24 hours.</p>
+            <!-- Contact form-->
+            <form class="needs-validation row row-cols-sm-2 row-cols-1 gy-sm-4 gy-3" novalidate>
+              <div class="col">
+                <label class="form-label" for="c-name">Full Name</label>
+                <input class="form-control form-control-lg" id="c-name" type="text" required>
+                <div class="invalid-tooltip mt-1">Please, enter your name</div>
+              </div>
+              <div class="col">
+                <label class="form-label" for="c-email">Email</label>
+                <input class="form-control form-control-lg" id="c-email" type="email" required>
+                <div class="invalid-tooltip mt-1">Please, enter your email</div>
+              </div>
+              <div class="col">
+                <label class="form-label" for="c-phone">Phone</label>
+                <input class="form-control form-control-lg" id="c-phone" type="tel" required>
+                <div class="invalid-tooltip mt-1">Please, enter your phone</div>
+              </div>
+              <div class="col">
+                <label class="form-label" for="c-subject">Subject</label>
+                <select class="form-select form-select-lg" id="c-subject" required>
+                  <option value="" selected disabled>Chose subject</option>
+                  <option value="Subject 1">Subject 1</option>
+                  <option value="Subject 2">Subject 2</option>
+                  <option value="Subject 3">Subject 3</option>
+                </select>
+                <div class="invalid-tooltip mt-1">Please, choose your subject</div>
+              </div>
+              <div class="col-12 w-100">
+                <label class="form-label" for="c-message">Message</label>
+                <textarea class="form-control form-control-lg" id="c-message" rows="4" placeholder="Leave your message" required></textarea>
+                <div class="invalid-tooltip mt-1">Please, leave your message</div>
+              </div>
+              <div class="col-12 w-100">
+                <button class="btn btn-lg btn-primary w-sm-auto w-100 mt-2" type="submit">Submit form</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      <!-- Contact cards-->
+      <section class="container pb-5 mb-lg-5">
+        <div class="row g-4">
+          <div class="col-md-4"><a class="icon-box card card-body border-0 shadow-sm card-hover h-100 text-center" href="mailto:rvignesh565@gmail.com">
+              <div class="icon-box-media bg-faded-accent text-accent rounded-circle mx-auto mb-3"><i class="fi-mail"></i></div><span class="d-block mb-1 text-body">Drop us a line</span>
+              <h3 class="h4 icon-box-title mb-0 opacity-90">rvignesh565@gmail.com</h3></a></div>
+          <div class="col-md-4"><a class="icon-box card card-body border-0 shadow-sm card-hover h-100 text-center" href="tel:8667605526">
+              <div class="icon-box-media bg-faded-success text-success rounded-circle mx-auto mb-3"><i class="fi-device-mobile"></i></div><span class="d-block mb-1 text-body">Call us any time</span>
+              <h3 class="h4 icon-box-title mb-0 opacity-90">+91 8667605526</h3></a></div>
+          <div class="col-md-4"><a class="icon-box card card-body border-0 shadow-sm card-hover h-100 text-center" href="#">
+              <div class="icon-box-media bg-faded-warning text-warning rounded-circle mx-auto mb-3"><i class="fi-instagram"></i></div><span class="d-block mb-1 text-body">Follow us</span>
+              <h3 class="h4 icon-box-title mb-0 opacity-90">@myads</h3></a></div>
+        </div>
+      </section>
+      <!-- Map location-->
+      <section class="container pb-5 mb-2 mb-lg-5">
+      </section>
+      </main>
+
+
+    <!-- Footer-->
+    {% include 'app/inc/footer.html' %}
+    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+    {% endblock content %}

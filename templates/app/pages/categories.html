@@ -1,0 +1,64 @@
+
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Page loading spinner-->
+    <div class="page-loading active">
+      <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+      </div>
+    </div>
+    <main class="page-wrapper">
+      {% include 'app/inc/navbar.html' %}
+      <!-- Page content-->
+       
+
+             <!-- Mobile app CTA-->
+<br>
+<br>
+      <section class="container mt-5">
+        <div class="bg-faded-accent rounded-3 ">
+          <div class="row align-items-center">
+            <div class="col-lg-5 col-md-6 ps-lg-5">
+              <div class="ps-xl-5 pe-md-0 pt-4 pb-md-4 px-3 text-center text-md-start">
+                <h2 class="mb-md-3 pt-2 pt-md-0 mb-2 pb-md-0 pb-1">Types of {{catitle}}</h2>
+                <p class="mb-4 pb-xl-3 fs-md">Explore all the below categories</p>
+                <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-md-start">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-6"><img class="d-none d-md-block" src="{% static 'images/agarlogo.png' %}" style="height: 200px !important; height: 200px !important;" alt="Illustration"><img class="d-block d-md-none mx-auto" src="{% static 'orgin/img/city-guide/illustrations/app-m.png' %}" width="446" alt="Illustration"></div>
+          </div>
+        </div>
+      </section>
+
+            <!-- Categories-->
+            <section class="container py-5 pt-xxl-4 mt-md-2 mb-md-4">
+              <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-2">
+              </div>
+              <div class="row row-cols-lg-6 row-cols-sm-3 row-cols-2 g-3 g-xl-4">
+                {% for item in subcategories %}
+                <div class="col">
+                  <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center" href="{% url 'subcategory_detail' location  item.parent.slug  item.slug %}">
+                      <!-- <img src="{{item.image.url}}" alt=""> -->
+                       <div style="height: 150px;background-position: center;background-size: contain;background-repeat: no-repeat;background-image: url({{item.image.url}});"></div>
+                  
+                    <h3 class="icon-box-title fs-base mb-0 mt-2">{{item.name}}</h3>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+            </section>
+
+
+
+
+
+
+
+    </main>
+    <!-- Footer-->
+    {% include 'app/inc/footer.html' %}
+    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+    {% endblock content %}

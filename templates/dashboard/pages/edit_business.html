@@ -1,0 +1,31 @@
+{% extends 'dashboard/base/base.html' %}
+{% block title %} <title>Edit Business</title> {% endblock %}
+{% block content %}
+
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Edit Business</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for field in form %}
+            <div class="{% if field.name == 'business_description' %} md:col-span-full {% endif %}">
+                <label class="block text-gray-700 font-medium">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <p class="text-sm text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                <p class="text-red-500 text-sm">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mt-4 flex justify-between">
+            <a href="{% url 'user_business_list' %}" class="px-4 py-2 bg-gray-300 rounded">Cancel</a>
+            <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded">Update</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

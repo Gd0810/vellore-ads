@@ -1,0 +1,50 @@
+{% load static %}
+
+<div class="text-center text-3xl text-primary mb-10 font-semibold">Search across 1000+ Business and services</div>
+<div class="border border-gray-300 rounded-lg mx-10 mb-10 pt-5 pb-5">
+    <!-- Global Select Dropdown -->
+    <div class="w-11/12 mx-auto my-3 flex justify-start relative">
+        <select id="categoryFilter" name="city"
+            class="w-full max-w-md bg-white border border-gray-300 
+                text-gray-700 text-lg p-3 rounded-lg shadow-md 
+                focus:outline-none focus:ring-2 focus:ring-blue-400 
+                focus:border-blue-400 transition-all 
+                appearance-none cursor-pointer" required>
+                {% for item in districts %}
+                <option value="{{ item.id }}">{{ item.district_name }}</option>
+                {% endfor %}
+        </select>
+    </div>
+
+
+    <!-- Business Cards Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 w-11/12 mx-auto mt-3 border border-gray-300 rounded-lg">
+        {% for item in business %}
+        <form action="{% url 'listings' item.business_slug %}" method="POST" class="p-4">
+            {% csrf_token %}
+            <input type="hidden" name="business_id" value="{{ item.business_slud }}">
+            <input type="hidden" name="category" class="category-input">
+
+            <button type="submit" class="w-full form-submit">
+                <div class="border border-gray-300 p-2 rounded-lg">
+                    <img class="w-full h-32 object-cover border-gray-200 rounded-md" src="{{ item.business_image.url }}" alt="">
+                </div>
+                <p class="mt-1 text-center text-gray-700 dark:text-gray-300 font-light">{{ item.business_type }}</p>
+            </button>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- JavaScript to Add Selected Option to Form Before Submission -->
+<script>
+document.querySelectorAll(".form-submit").forEach(button => {
+    button.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent immediate form submission
+        let form = this.closest("form"); 
+        let selectedCategory = document.getElementById("categoryFilter").value;
+        form.querySelector(".category-input").value = selectedCategory; 
+        form.submit(); // Now submit with selected category
+    });
+});
+</script>
